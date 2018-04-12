@@ -20,7 +20,7 @@ const bookmarks = (function () {
   const render = () => {
     let html = '';
     store.bookmarks.forEach(bookmark => html += bookmarks.generateBookmarkDOMelement(bookmark));
-    $('.display-bookmarks').html(html);
+    $('#display-bookmarks').html(html);
   };
 
   // Update the state of store.bookmarks
@@ -60,6 +60,7 @@ const bookmarks = (function () {
   };
 
 
+  // Handle DELETE functionality from the DOM AND STORE
   const handleDeleteBookmarkClick = () => {
     // capture the ul that contains generated list elements
     $('#display-bookmarks').on('click', '.js-bookmark-delete', event => {
@@ -76,13 +77,13 @@ const bookmarks = (function () {
     });
   };
 
-  const bindEventListeners = () => {
-    generateBookmarkDOMelement;
-    render;
-    updateStoreBookmarks;
-    handleNewBookmarkSubmit;
-    handleDeleteBookmarkClick;
-  };
+  // const bindEventListeners = () => {
+  //   generateBookmarkDOMelement;
+  //   render;
+  //   updateStoreBookmarks;
+  //   handleNewBookmarkSubmit;
+  //   handleDeleteBookmarkClick;
+  // };
 
   return {
     generateBookmarkDOMelement,
