@@ -13,7 +13,16 @@ const api = (function() {
 
   // POST - submit data to be processed to a specified resource
   const createBookmark = (data, callback, errorCallback) => {
-    
+    let newBookmark = JSON.stringify(data);
+
+    $.ajax({
+      url: `${BASE_URL}/bookmarks`,
+      method: 'POST',
+      contentType: 'application/json',
+      data: newBookmark,
+      success: callback,
+      error: errorCallback,
+    });
   };
 
   // PATCH 
