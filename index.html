@@ -9,18 +9,32 @@
   <title>BOOKMARK MANAGER | WELOME</title>
 </head>
 <body>
-  <header role="heading">
-    <div class="header-container">
-
+  <header role="heading" id="branding">
+    <div class="container">
+      <h1>Bookmark App</h1>
     </div>
   </header>
   
   <main role="main">
-    <div class="main-container">
-
-    </div>
+      <form class="add-bookmark-form">
+        <h2>Add a new Bookmark:</h2>
+        <label for="bookmark-name">Bookmark name:</label>
+        <input type="text" id="bookmark-name">
+        <label for="bookmark-url">Bookmark URL:</label>
+        <input type="text" id="bookmark-url">
+        <label for="bookmark-rating">Rate your bookmark:</label>
+        <input type="text" id="rating">
+        <label for="bookmark-description">Bookmark description:</label>
+        <input type="text" id="description">
+        <input type="submit" value="ADD">
+      </form>
+      
+      <div class="container">
+        <ul class="display-bookmarks"></ul>
+      </div>
   </main>
-  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/cuid/1.3.8/browser-cuid.min.js"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script src="scripts/main.js"></script>
 </body>
 </html>
