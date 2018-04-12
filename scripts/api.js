@@ -1,7 +1,8 @@
 'use strict';
 /*global $*/
 
-const api = (function(){
+// API module methods are async functions for returning responses
+const api = (function() {
   const BASE_URL = 'https://thinkful-list-api.herokuapp.com/cam';
 
   // GET - Request data from a specified resource
@@ -12,32 +13,14 @@ const api = (function(){
 
   // POST - submit data to be processed to a specified resource
   const createBookmark = (name, callback) => {
-    // ajax call to be submitted.
-    // Causing a change in state or side effects on the server
-    $.ajax({
-      url: `${BASE_URL}/bookmarks`,
-      method: 'POST',
-      contentType: 'application/json',
-      data: {
-        id: cuid(),
-        title: ,
-        url: ,
-        rating: ,
-        description: ,
-        editMode: false, 
-      },
-      sucess: callback,
-      error: errorCallback,
-    });
+   
   };
 
-  const updateItem = (id, updateData, callback) => {
+  // PATCH 
+  const updateBookmark = (id, updateData, callback) => {
 
-  }
+  };
 
-  const findAndUpdate = () => {
-
-  }
 
 
   return {
