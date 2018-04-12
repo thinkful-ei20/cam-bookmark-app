@@ -1,5 +1,5 @@
 'use strict';
-/*global $, store*/
+/*global $, store, api*/
 
 const bookmarks = (function () {
 
@@ -8,7 +8,7 @@ const bookmarks = (function () {
     return `
       <li class="bookmark-item js-bookmark-item">
         <h3>${bookmark.title}</h3>
-        <span>${bookmark.rating}</span>
+        <span>${bookmark.url}</span>
       </li>
     `;
   };
@@ -21,7 +21,7 @@ const bookmarks = (function () {
   };
 
   // Update the state of store.bookmarks
-  const updateStoreBookmarksList = (response) => {
+  const updateStoreBookmarks = (response) => {
     console.log(response);
     const bookmarks = [];
     // Create a new array of items, update the store's state
@@ -36,19 +36,28 @@ const bookmarks = (function () {
   };
 
   // Handle the form submit
-  const handleFormSubmit = () => {
+  const handleNewBookmarkSubmit = () => {
     $('.add-bookmark-form').on('submit', event => {
       event.preventDefault(); // prevent form default behavior
-
-      const newBookmark = $('.bookmark-title').val();
-      console.log(newBookmark);
+      const newBookmarkTitle = $('#bookmark-title').val();
+      const newBookmarkURL = $('#bookmark-url').val();
+      let newBookmark = {
+        title: newBookmarkTitle,
+        url: newBookmarkURL,
+      };
+      api.createBookmark(newBookmark, store.addBookmark(newBookmark));
     });
+    api.getBookmarks((bookmarks) => {
+      bookmarks.forEach((bookmark) => store.addBookmark(bookmark));
+      render();
+    });
+    console.log(store.bookmarks);
   };
 
   return {
     generateBookmarkDOMelement,
     render,
-    updateStoreBookmarksList,
-    handleFormSubmit,
+    updateStoreBookmarks,
+    handleNewBookmarkSubmit,
   };
 }());

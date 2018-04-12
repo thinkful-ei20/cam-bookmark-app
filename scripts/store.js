@@ -7,11 +7,17 @@ const store = (function(){
   let bookmarks = [];
 
   const setBookmarks = (bookmarks) => {
-    this.bookmarks = bookmarks;
+    store.bookmarks = bookmarks;
+  };
+
+  const addBookmark = (bookmark) => {
+    // console.log(bookmark);
+    store.bookmarks.push(bookmark);
   };
 
   return {
     bookmarks,
     setBookmarks,
+    addBookmark,
   };
 }());

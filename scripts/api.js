@@ -13,7 +13,11 @@ const api = (function() {
 
   // POST - submit data to be processed to a specified resource
   const createBookmark = (data, callback, errorCallback) => {
-    let newBookmark = JSON.stringify(data);
+    let newBookmark = JSON.stringify({
+      title: data.title,
+      url: data.url,
+    });
+    // console.log(newBookmark);
 
     $.ajax({
       url: `${BASE_URL}/bookmarks`,

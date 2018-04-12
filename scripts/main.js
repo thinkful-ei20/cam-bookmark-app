@@ -1,9 +1,10 @@
 'use strict';
-/*global $, api*/
+/*global $, api, store, bookmarks*/
 
 // DOM READY FUNCTION
 $(() => {
   // Run handlers
+  bookmarks.handleNewBookmarkSubmit();
 });
 
 // POST TEST
@@ -11,4 +12,8 @@ $(() => {
 //   api.getBookmarks((bookmarks) => {
 //     console.log(newBookmark);  
 //   });
+// });
+
+// api.getBookmarks((bookmarks) => {
+//   store.bookmarks.forEach((bookmark) => console.log(bookmark));
 // });
