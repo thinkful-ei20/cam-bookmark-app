@@ -42,7 +42,7 @@ const api = (function() {
   };
 
   // DELETE
-  const deletedBookmark = (id, callback, errorCallback) => {
+  const deleteBookmark = (id, callback, errorCallback) => {
     $.ajax({
       url: `${BASE_URL}/bookmarks/${id}`,
       method: 'DELETE',
@@ -56,6 +56,6 @@ const api = (function() {
     getBookmarks,
     createBookmark,
     updateBookmark,
-    deletedBookmark,
+    deleteBookmark,
   };
 }());

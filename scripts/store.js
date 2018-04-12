@@ -15,9 +15,19 @@ const store = (function(){
     store.bookmarks.push(bookmark);
   };
 
+  const findById = (id) => {
+    return store.bookmarks.find(bookmark => bookmark.id === id);
+  };
+
+  const findAndDelete = (id) => {
+    store.bookmarks = store.bookmarks.filter(bookmark => bookmark.id !== id);
+  };
+
   return {
     bookmarks,
     setBookmarks,
     addBookmark,
+    findById,
+    findAndDelete,
   };
 }());
