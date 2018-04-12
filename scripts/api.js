@@ -31,12 +31,25 @@ const api = (function() {
 
   // PATCH 
   const updateBookmark = (id, updateData, callback, errorCallback) => {
-    
+    $.ajax({
+      url: `${BASE_URL}/bookmarks/${id}`,
+      method: 'PATCH',
+      contentType: 'application/json',
+      data: JSON.stringify(updateData),
+      success: callback,
+      error: errorCallback,
+    });
   };
 
   // DELETE
   const deletedBookmark = (id, callback, errorCallback) => {
-    
+    $.ajax({
+      url: `${BASE_URL}/bookmarks/${id}`,
+      method: 'DELETE',
+      contentType: 'application/JSON',
+      success: callback,
+      error: errorCallback,
+    });
   };
 
   return {

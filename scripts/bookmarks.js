@@ -9,6 +9,9 @@ const bookmarks = (function () {
       <li class="bookmark-item js-bookmark-item">
         <h3>${bookmark.title}</h3>
         <span>${bookmark.url}</span>
+        <button class="bookmark-delete js-bookmark-delete">
+          <span class="button-label>DELETE</span>
+        </button>
       </li>
     `;
   };
@@ -18,6 +21,7 @@ const bookmarks = (function () {
     let html = '';
     store.bookmarks.forEach(bookmark => html += bookmarks.generateBookmarkDOMelement(bookmark));
     $('.display-bookmarks').html(html);
+    
   };
 
   // Update the state of store.bookmarks
@@ -27,12 +31,6 @@ const bookmarks = (function () {
     // Create a new array of items, update the store's state
     // response.items.forEach(item => {
 
-    //   bookmarks.push({
-    //     id: item.id,
-    //     //title: bookmarkTitle,
-    //   });
-    // });
-    
   };
 
   // Handle the form submit
@@ -45,13 +43,16 @@ const bookmarks = (function () {
         title: newBookmarkTitle,
         url: newBookmarkURL,
       };
+      // create a new bookmark in the store(callback)
       api.createBookmark(newBookmark, store.addBookmark(newBookmark));
     });
+    // GET a list of current bookmarks and forEach bookmark
+    // Add it to the store.bookmarks
     api.getBookmarks((bookmarks) => {
       bookmarks.forEach((bookmark) => store.addBookmark(bookmark));
       render();
     });
-    console.log(store.bookmarks);
+    // console.log(store.bookmarks);
   };
 
   return {
