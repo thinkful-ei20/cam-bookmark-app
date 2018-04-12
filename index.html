@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <meta name="author" content="CSPrier">
-  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="css/main.css">
   <title>BOOKMARK MANAGER | WELOME</title>
 </head>
 <body>
@@ -19,16 +19,26 @@
       <form class="add-bookmark-form">
         <h2>Add a new Bookmark:</h2>
         <label for="bookmark-name">Bookmark name:</label>
-        <input type="text" id="bookmark-name">
+        <input type="text" id="bookmark-title" required>
         <label for="bookmark-url">Bookmark URL:</label>
-        <input type="text" id="bookmark-url">
+        <input type="text" id="bookmark-url" required>
         <label for="bookmark-rating">Rate your bookmark:</label>
-        <input type="text" id="rating">
+        <input type="number" id="rating">
         <label for="bookmark-description">Bookmark description:</label>
         <input type="text" id="description">
         <input type="submit" value="ADD">
       </form>
       
+      <label for="rating-filter">Filter by rating:
+      <select class="rating-filter">
+        <option value="0">0</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+      </label>
       <div class="container">
         <ul class="display-bookmarks"></ul>
       </div>
