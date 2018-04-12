@@ -1,6 +1,6 @@
 'use strict';
 /*global $, store*/
-
+console.log('bookmarks.js operational');
 const bookmarks = (function () {
 
   // Generate an HTML element template

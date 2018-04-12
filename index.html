@@ -21,7 +21,7 @@
         <label for="bookmark-name">Bookmark name:</label>
         <input type="text" id="bookmark-title" required>
         <label for="bookmark-url">Bookmark URL:</label>
-        <input type="text" id="bookmark-url" required>
+        <input type="text" id="bookmark-url">
         <label for="bookmark-rating">Rate your bookmark:</label>
         <input type="number" id="rating">
         <label for="bookmark-description">Bookmark description:</label>
@@ -40,11 +40,20 @@
       </select>
       </label>
       <div class="container">
-        <ul class="display-bookmarks"></ul>
+        <ul class="display-bookmarks">
+            <!-- <li class="bookmark-item js-bookmark-item">
+                <h3>${bookmark.title}</h3>
+                <span>${bookmark.rating}</span>
+              </li> -->
+        </ul>
       </div>
   </main>
+
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/cuid/1.3.8/browser-cuid.min.js"></script>
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-  <script src="scripts/main.js"></script>
+  <script type="text/javascript" src="scripts/store.js"></script>
+  <script type="text/javascript" src="scripts/api.js"></script>
+  <script type="text/javascript" src="scripts/bookmarks.js"></script>
+  <script type="text/javascript" src="scripts/main.js"></script>
 </body>
 </html>
