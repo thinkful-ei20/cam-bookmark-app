@@ -1,5 +1,4 @@
 'use strict';
-console.log('store.js operational');
 const store = (function(){
   let createNewBookmarkMode = false; // false = simple view of bookmarks, true = form view, which leads to submit event
   let filter = true; // true = filter is active, false = default ordering
