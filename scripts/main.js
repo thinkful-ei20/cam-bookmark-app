@@ -8,5 +8,6 @@ $(() => {
   bookmarks.render();
   bookmarks.handleDeleteBookmarkClick();
   bookmarks.handleEditModeClick();
+  bookmarks.handleExpandedView();
 });
 
