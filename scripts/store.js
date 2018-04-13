@@ -10,6 +10,7 @@ const store = (function(){
 
   // ERROR HANDLING
   const setError = (error) => {
+    store.error = error;
   };
 
   // Initialize bookmarks to the store object

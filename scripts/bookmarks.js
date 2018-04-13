@@ -27,7 +27,7 @@ const bookmarks = (function () {
     let bookmarkTemplate = `
       <li class="bookmark-item js-bookmark-item" data-item-id="${bookmark.id}">
         <h1>${bookmark.title}</h1>
-        <h3>Rated: ${bookmark.rating || ''}</h3>
+        <h2>Rated: ${bookmark.rating || ''}</h2>
         <span>${bookmark.url}</span>
         <button class="bookmark-detailed-view js-bookmark-detailed-view">
           <span class="button-label">DETAILED VIEW</span>
@@ -45,15 +45,15 @@ const bookmarks = (function () {
       <li class="bookmark-item js-bookmark-item" data-item-id="${bookmark.id}">
         <h1>${bookmark.title}</h1>
         <span>${bookmark.url}</span>
-        <textarea rows="4" cols="50" class="description-textarea" placeholder="Description of Bookmark...">${bookmark.desc || ''}</textarea>
+        <textarea rows="4" cols="50" class="description-textarea" placeholder="Description of Bookmark..." contenteditable="true" aria-multiline="true">${bookmark.desc || ''}</textarea>
       <label for="rating">Rate your bookmark 0 - 5:
       <select class="bookmark-rating js-bookmark-rating">
-        <option value="0"${(bookmark.rating === 0) ? ' selected' : ''}>0</option>
-        <option value="1"${(bookmark.rating === 1) ? ' selected' : ''}>1</option>
-        <option value="2"${(bookmark.rating === 2) ? ' selected' : ''}>2</option>
-        <option value="3"${(bookmark.rating === 3) ? ' selected' : ''}>3</option>
-        <option value="4"${(bookmark.rating === 4) ? ' selected' : ''}>4</option>
-        <option value="5"${(bookmark.rating === 5) ? ' selected' : ''}>5</option>
+        <option role="option" value="0"${(bookmark.rating === 0) ? ' selected' : ''}>0</option>
+        <option role="option" value="1"${(bookmark.rating === 1) ? ' selected' : ''}>1</option>
+        <option role="option" value="2"${(bookmark.rating === 2) ? ' selected' : ''}>2</option>
+        <option role="option" value="3"${(bookmark.rating === 3) ? ' selected' : ''}>3</option>
+        <option role="option" value="4"${(bookmark.rating === 4) ? ' selected' : ''}>4</option>
+        <option role="option" value="5"${(bookmark.rating === 5) ? ' selected' : ''}>5</option>
       </select>
       </label>
       <button class="bookmark-edit js-bookmark-finish-edit">
@@ -101,10 +101,10 @@ const bookmarks = (function () {
     }
 
     // filter render
-    console.log(store.fitlerValue);
+    // console.log(store.fitlerValue);
     if (store.filterValue > 0) {
-      filteredItems = store.bookmarks.filter(bookmark => bookmark.rating >= store.filterValue);
-      console.log(filteredItems);
+      filteredItems = store.bookmarks.filter(bookmark => parseInt(bookmark.rating) === parseInt(store.filterValue));
+      // console.log(filteredItems);
     }
 
     let html = generateBookmarkString(filteredItems);
@@ -125,11 +125,13 @@ const bookmarks = (function () {
       event.preventDefault(); // prevent form default behavior
       const newBookmarkTitle = $('#bookmark-title').val();
       const newBookmarkURL = $('#bookmark-url').val();
+      const newBookmarkRating = $('#bookmark-rating-input').val();
+      const newBookmarkDescription = $('#bookmark-desc-input').val();
       let newBookmark = {
         title: newBookmarkTitle,
         url: newBookmarkURL,
-        rating: null,
-        desc: null,
+        rating: newBookmarkRating || null,
+        desc: newBookmarkDescription || null,
         editMode: false,
         expanded: false,
       };

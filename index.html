@@ -9,41 +9,52 @@
   <title>BOOKMARK MANAGER | WELOME</title>
 </head>
 <body>
-  <header role="heading" id="branding">
-    <div class="container">
-      <h1>Bookmark App</h1>
-    </div>
-  </header>
-  
+  <section role="region">
+    <header role="heading" aria-level="1" id="branding">
+        <h1>Bookmark App</h1>
+    </header>
+  </section>
+
   <main role="main">
+    <section role="region">
       <form class="add-bookmark-form">
         <h2>Add a new Bookmark:</h2>
-        <label for="bookmark-name">Bookmark name:</label>
-        <input type="text" id="bookmark-title" required>
-        <label for="bookmark-url">Bookmark URL:</label>
-        <input type="text" id="bookmark-url" required>
-        <label for="bookmark-rating">Bookmark rating:</label>
-        <input type="text" id="bookmark-rating-input">
-        <textarea name="bookmark-desc-textarea" id="bookmark-desc-input" cols="30" rows="10" placeholder="Description(Optional).."></textarea>
+        <label for="bookmark-title">Bookmark name:
+          <input contenteditable="true" id="bookmark-title" required>
+        </label>
+        <label for="bookmark-url">Bookmark URL:
+          <input contenteditable="true" id="bookmark-url" required>
+        </label>
+        <label for="bookmark-rating">Bookmark rating:
+          <input contenteditable="true" id="bookmark-rating-input">
+        </label>
+        <label for="bookmark-desc-input">Bookmark description:
+          <textarea name="bookmark-desc-textarea" id="bookmark-desc-input" contenteditable="true" aria-multiline="true" cols="30" rows="10" placeholder="Description(Optional).."></textarea>
+        </label>
         <input type="submit" id="add-bookmark-button" value="ADD">
       </form>
-      
+    </section>
+    
+    <section role="region">
       <label for="rating-filter">Filter by rating:
-      <select id="rating-filter">
-        <option value="0">0</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-      </select>
+        <select id="rating-filter">
+          <option role="option" value="0">0</option>
+          <option role="option" value="1">1</option>
+          <option role="option" value="2">2</option>
+          <option role="option" value="3">3</option>
+          <option role="option" value="4">4</option>
+          <option role="option" value="5">5</option>
+        </select>
       </label>
+    </section>
 
+    <section role="region">
       <div class="container">
         <ul class="display-bookmarks" id="display-bookmarks">
             
         </ul>
       </div>
+    </section>
   </main>
 
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
