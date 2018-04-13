@@ -12,16 +12,19 @@ const bookmarks = (function () {
         <button class="bookmark-delete js-bookmark-delete">
           <span class="button-label">DELETE</span>
         </button>
+        <button class="bookmark-edit js-bookmark-edit">
+          <span class="button-label">EDIT</span>
+        </button>
       </li>
     `;
   };
 
-  // const generateBookmarkString = (bookmarks) => {
-  //   const bookmarkString = store.bookmarks.map((bookmark) => generateBookmarkDOMelement(bookmark));
-  //   return bookmarkString.join('');
-  // };
+  const generateBookmarkString = (bookmarks) => {
+    const bookmarkString = bookmarks.map((bookmark) => generateBookmarkDOMelement(bookmark));
+    return bookmarkString.join('');
+  };
 
-  // Render function responsible for rendering HTML on the DOM
+  // Render function responsible for rendering correct HTML elements on the DOM
   const render = () => {
     // Filter render logic
     // if (store.filter){
@@ -31,8 +34,10 @@ const bookmarks = (function () {
     //   bookmarks = store.bookmarks.filter(bookmark => bookmark.rating === bookmark.rating)
     // }
 
-    let html = ''; //generateBookmarkString(bookmarks);
-    store.bookmarks.forEach((bookmark) => html += bookmarks.generateBookmarkDOMelement(bookmark));
+    let bookmarks = store.updateStoreBookmarks(store.bookmarks);
+    // console.log(bookmarks);
+    let html = generateBookmarkString(bookmarks);
+    store.bookmarks.forEach((bookmark) => html += generateBookmarkDOMelement(bookmark));
     $('#display-bookmarks').html(html);
   };
 
@@ -41,32 +46,28 @@ const bookmarks = (function () {
     return $(bookmark).closest('.js-bookmark-item').data('item-id');
   };
 
-  // Add a bookmark to the store
-  const updateStoreBookmarks = () => {
-
-  };
-
   // Handle the form submit
   const handleNewBookmarkSubmit = () => {
     $('.add-bookmark-form').on('submit', event => {
-      event.preventDefault(); // prevent form default behavior
+      // event.preventDefault(); // prevent form default behavior
       const newBookmarkTitle = $('#bookmark-title').val();
       const newBookmarkURL = $('#bookmark-url').val();
       let newBookmark = {
         title: newBookmarkTitle,
         url: newBookmarkURL,
         rating: null,
-        description: null,
+        desc: null,
+        editMode: false,
         expanded: false,
       };
       // create a new bookmark in the store(callback)
       api.createBookmark(newBookmark, () => {
-        console.log(newBookmark);
+        // console.log(newBookmark);
         store.addBookmark(newBookmark);
         render();
       });
     });
-    console.log(store.bookmarks);
+    // console.log(store.bookmarks);
     // GET a list of current bookmarks and forEach bookmark
     // Add each to the store.bookmarks
     api.getBookmarks((bookmarks) => {
@@ -74,6 +75,23 @@ const bookmarks = (function () {
       render();
     });
     // console.log(store.bookmarks);
+  };
+
+  // Handle toggling edit mode state of the object and rerender to render the object in editing mode
+  const handleEditModeClick = () => {
+    $('#display-bookmarks').on('click', '.js-bookmark-edit', event => {
+      // The default bookmarks lack the editMode property
+      // update store.bookmarks with the editMode/expand properties, both false
+      let bookmarks = store.updateStoreBookmarks(store.bookmarks);
+      // console.log(bookmarks);
+      // Get the ID of the click event bookmark
+      const id = getBookmarkIDFromElement(event.currentTarget);
+      // console.log(id);
+
+      store.findAndToggleEditMode(id);
+      console.log(store.bookmarks);
+      // Per click of the edit button, the editMode property is now able to be toggled
+    });
   };
 
 
@@ -104,7 +122,10 @@ const bookmarks = (function () {
 
   return {
     generateBookmarkDOMelement,
+    generateBookmarkString,
+    // updateStoreBookmarks,
     render,
+    handleEditModeClick,
     handleNewBookmarkSubmit,
     handleDeleteBookmarkClick,
   };

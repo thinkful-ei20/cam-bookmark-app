@@ -7,5 +7,6 @@ $(() => {
   bookmarks.handleNewBookmarkSubmit();
   bookmarks.render();
   bookmarks.handleDeleteBookmarkClick();
+  bookmarks.handleEditModeClick();
 });
 

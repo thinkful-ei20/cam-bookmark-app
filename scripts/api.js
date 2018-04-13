@@ -8,19 +8,16 @@ const api = (function() {
 
   // GET - Request data from a specified resource
   const getBookmarks = (callback) => {
-    $.getJSON(`${BASE_URL}/bookmarks`, callback);
+    $.getJSON(BASE_URL + '/bookmarks', callback);
   };
 
   // POST - submit data to be processed to a specified resource
   const createBookmark = (data, callback, errorCallback) => {
-    let newBookmark = JSON.stringify({
-      title: data.title,
-      url: data.url,
-    });
-    // console.log(newBookmark);
+    let newBookmark = JSON.stringify(data);
+    console.log(newBookmark);
 
     $.ajax({
-      url: `${BASE_URL}/bookmarks`,
+      url: BASE_URL + '/bookmarks',
       method: 'POST',
       contentType: 'application/json',
       data: newBookmark,
@@ -32,7 +29,7 @@ const api = (function() {
   // PATCH 
   const updateBookmark = (id, updateData, callback, errorCallback) => {
     $.ajax({
-      url: `${BASE_URL}/bookmarks/${id}`,
+      url: BASE_URL + '/bookmarks/' + id,
       method: 'PATCH',
       contentType: 'application/json',
       data: JSON.stringify(updateData),
@@ -44,7 +41,7 @@ const api = (function() {
   // DELETE
   const deleteBookmark = (id, callback, errorCallback) => {
     $.ajax({
-      url: `${BASE_URL}/bookmarks/${id}`,
+      url: BASE_URL + '/bookmarks/' + id,
       method: 'DELETE',
       contentType: 'application/JSON',
       success: callback,
