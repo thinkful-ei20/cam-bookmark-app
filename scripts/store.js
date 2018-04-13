@@ -6,6 +6,10 @@ const store = (function(){
 
   let bookmarks = [];
 
+  const setError = (error) => {
+    this.error = error;
+  };
+
   const setBookmarks = (bookmarks) => {
     store.bookmarks = bookmarks;
   };
@@ -55,6 +59,11 @@ const store = (function(){
     bookmarks,
     setBookmarks,
     addBookmark,
+    error: null,
+
+    filter,
+    filterValue,
+
     findAndToggleExpanded,
     findById,
     findAndDelete,

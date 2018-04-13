@@ -2,9 +2,25 @@
 /*global $, store, api*/
 
 const bookmarks = (function () {
+
+  const generateError = (err) => {
+    let message = '';
+    if(err.responseJSON && err.responseJSON.message) {
+      message = err.responseJSON.message;
+    } else {
+      message = `${err.code} SERVER ERROR`;
+    }
+
+    return; `
+    <section class="error-content">
+      <button id="cancel-error">X</button>
+    </section>
+    `;
+  };
+
   // Generate an HTML element template
   const generateBookmarkDOMelement = (bookmark) => {
-    console.log(bookmark);
+    // console.log(bookmark);
     let bookmarkTemplate = `
       <li class="bookmark-item js-bookmark-item" data-item-id="${bookmark.id}">
         <h3>${bookmark.title}</h3>
@@ -47,8 +63,10 @@ const bookmarks = (function () {
       <li class="bookmark-item js-bookmark-item" data-item-id="${bookmark.id}">
       <h3>${bookmark.title}</h3>
       <span>${bookmark.url}</span>
-      <span>Rating: ${bookmark.rating}</span>
-      <span>Description: ${bookmark.desc}</span>
+      <label>Rating:</label>
+      <span class="rating-span">${bookmark.rating}</span>
+      <label>Description:</label>
+      <span class"description-span">${bookmark.desc}</span>
       <button class="bookmark-detailed-view js-bookmark-detailed-view">
         <span class="button-label">LEAVE DETAILED VIEW</span>
       </button>
@@ -66,6 +84,13 @@ const bookmarks = (function () {
 
   // Render function responsible for rendering correct HTML elements on the DOM
   const render = () => {
+    if(store.error) {
+      const el = generateError(store.error);
+      $('.error-container').html(el);
+    } else {
+      $('.error-container').empty();
+    }
+
     let html = generateBookmarkString(store.bookmarks);
     $('#display-bookmarks').html(html);
   };
@@ -77,7 +102,6 @@ const bookmarks = (function () {
 
   // Handle the form submit
   const handleNewBookmarkSubmit = () => {
-    console.log('HELLOOOO');
     $('.add-bookmark-form').on('submit', event => {
       event.preventDefault(); // prevent form default behavior
       const newBookmarkTitle = $('#bookmark-title').val();
@@ -115,6 +139,7 @@ const bookmarks = (function () {
         store.findById(id).desc = description;
         store.findById(id).rating = parseInt(rating);
       }
+      console.log(store.bookmarks);
       store.findAndToggleEditMode(id);
       render();
     });
@@ -123,11 +148,16 @@ const bookmarks = (function () {
   // Handles the expanded(detailed view) functionality
   const handleExpandedView = () => { 
     $('#display-bookmarks').on('click', '.js-bookmark-detailed-view', event => { 
+      // get the ID of the bookmark html element
       const id = getBookmarkIDFromElement(event.currentTarget); 
+      // get the description value taken from edit mode
       let description = $(event.currentTarget).parent().find('.description-textarea').val();
+      // get the rating value taken from edit mode
       let rating = $(event.currentTarget).parent().find('.js-bookmark-rating').val();
+      // update the store
       store.findById(id).desc = description;
       store.findById(id).rating = parseInt(rating);
+      // toggle the expanded state
       store.findAndToggleExpanded(id); 
       console.log(store.bookmarks);
       render(); 
@@ -152,7 +182,6 @@ const bookmarks = (function () {
   };
 
   const bindEventListeners = () => {
-    console.log('HELLO');
     handleNewBookmarkSubmit();
     handleEditModeClick();
     handleExpandedView();
