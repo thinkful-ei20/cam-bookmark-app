@@ -2,10 +2,9 @@
 /*global $, store, api*/
 
 const bookmarks = (function () {
-
   // Generate an HTML element template
   const generateBookmarkDOMelement = (bookmark) => {
-    // console.log(bookmark);
+    console.log(bookmark);
     let bookmarkTemplate = `
       <li class="bookmark-item js-bookmark-item" data-item-id="${bookmark.id}">
         <h3>${bookmark.title}</h3>
@@ -26,7 +25,6 @@ const bookmarks = (function () {
       <li class="bookmark-item js-bookmark-item" data-item-id="${bookmark.id}">
         <h3>${bookmark.title}</h3>
         <span>${bookmark.url}</span>
-
         <textarea rows="4" cols="50" class="description-textarea" placeholder="Description of Bookmark...">${bookmark.desc || ''}</textarea>
       <label for="rating">Rate your bookmark 0 - 5:
       <select class="bookmark-rating js-bookmark-rating">
@@ -60,6 +58,7 @@ const bookmarks = (function () {
     return bookmarkTemplate;
   };
 
+  // generates an array of string of html elements and joins them together into one big string
   const generateBookmarkString = (bookmarks) => {
     const bookmarkString = bookmarks.map((bookmark) => generateBookmarkDOMelement(bookmark));
     return bookmarkString.join('');
@@ -67,16 +66,6 @@ const bookmarks = (function () {
 
   // Render function responsible for rendering correct HTML elements on the DOM
   const render = () => {
-    // Filter render logic
-    // if (store.filter){
-    //   filter by store.filterValue, nested if's?
-    // }
-    // if (store.filter) {
-    //   bookmarks = store.bookmarks.filter(bookmark => bookmark.rating === bookmark.rating)
-    // }
-
-    // let bookmarks = store.updateStoreBookmarks(store.bookmarks);
-    // console.log(bookmarks);
     let html = generateBookmarkString(store.bookmarks);
     $('#display-bookmarks').html(html);
   };
@@ -88,8 +77,9 @@ const bookmarks = (function () {
 
   // Handle the form submit
   const handleNewBookmarkSubmit = () => {
+    console.log('HELLOOOO');
     $('.add-bookmark-form').on('submit', event => {
-      // event.preventDefault(); // prevent form default behavior
+      event.preventDefault(); // prevent form default behavior
       const newBookmarkTitle = $('#bookmark-title').val();
       const newBookmarkURL = $('#bookmark-url').val();
       let newBookmark = {
@@ -102,25 +92,9 @@ const bookmarks = (function () {
       };
       // create a new bookmark in the store(callback)
       api.createBookmark(newBookmark, () => {
-        // console.log(newBookmark);
         store.addBookmark(newBookmark);
         render();
       });
-    });
-    // console.log(store.bookmarks);
-    // GET a list of current bookmarks and forEach bookmark
-    // Add each to the store.bookmarks
-    api.getBookmarks((bookmarks) => {
-      bookmarks.forEach((bookmark) => store.addBookmark({
-        id: bookmark.id,
-        title: bookmark.title,
-        url: bookmark.url,
-        rating: bookmark.rating,
-        desc: bookmark.desc,
-        editMode: bookmark.editMode,
-        expanded: false,
-      }));
-      render();
     });
     // console.log(store.bookmarks);
   };
@@ -146,6 +120,7 @@ const bookmarks = (function () {
     });
   };
 
+  // Handles the expanded(detailed view) functionality
   const handleExpandedView = () => { 
     $('#display-bookmarks').on('click', '.js-bookmark-detailed-view', event => { 
       const id = getBookmarkIDFromElement(event.currentTarget); 
@@ -154,7 +129,7 @@ const bookmarks = (function () {
       store.findById(id).desc = description;
       store.findById(id).rating = parseInt(rating);
       store.findAndToggleExpanded(id); 
-      console.log(store);
+      console.log(store.bookmarks);
       render(); 
     }); 
   };
@@ -176,21 +151,16 @@ const bookmarks = (function () {
     });
   };
 
-  // const bindEventListeners = () => {
-  //   generateBookmarkDOMelement;
-  //   render;
-  //   updateStoreBookmarks;
-  //   handleNewBookmarkSubmit;
-  //   handleDeleteBookmarkClick;
-  // };
+  const bindEventListeners = () => {
+    console.log('HELLO');
+    handleNewBookmarkSubmit();
+    handleEditModeClick();
+    handleExpandedView();
+    handleDeleteBookmarkClick();
+  };
 
   return {
-    generateBookmarkDOMelement,
-    generateBookmarkString,
-    render,
-    handleEditModeClick,
-    handleExpandedView,
-    handleNewBookmarkSubmit,
-    handleDeleteBookmarkClick,
+    bindEventListeners: bindEventListeners,
+    render: render,
   };
 }());

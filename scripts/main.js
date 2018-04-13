@@ -4,10 +4,18 @@
 // DOM READY FUNCTION
 $(() => {
   // Run handlers
-  bookmarks.handleNewBookmarkSubmit();
-  bookmarks.render();
-  bookmarks.handleDeleteBookmarkClick();
-  bookmarks.handleEditModeClick();
-  bookmarks.handleExpandedView();
+  api.getBookmarks((response) => {
+    response.forEach((bookmark) => store.addBookmark({
+      id: bookmark.id,
+      title: bookmark.title,
+      url: bookmark.url,
+      rating: bookmark.rating,
+      desc: bookmark.desc,
+      editMode: bookmark.editMode,
+      expanded: false,
+    }));
+    bookmarks.render();
+  });
+  bookmarks.bindEventListeners();
 });
 
