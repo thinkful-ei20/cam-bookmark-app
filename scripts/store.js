@@ -5,13 +5,11 @@ const store = (function(){
 
 
   // FILTERING STATES
-  let filter = false; // true = filter is active, false = default ordering
   let filterValue; // 0 - 5 // What do be filtered by, rating wise
 
 
   // ERROR HANDLING
   const setError = (error) => {
-    this.error = error;
   };
 
   // Initialize bookmarks to the store object
@@ -48,20 +46,15 @@ const store = (function(){
     bookmark.expanded = !bookmark.expanded;
   };
 
-  const toggleFilter = (id) => {
-    this.filter = !this.filter;
-  };
-
   return {
     bookmarks,
     setBookmarks,
     addBookmark,
     error: null,
 
-    filter,
     filterValue,
 
-    toggleFilter,
+    setError,
     findAndToggleExpanded,
     findById,
     findAndDelete,

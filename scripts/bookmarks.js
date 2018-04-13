@@ -26,7 +26,8 @@ const bookmarks = (function () {
     // console.log(bookmark);
     let bookmarkTemplate = `
       <li class="bookmark-item js-bookmark-item" data-item-id="${bookmark.id}">
-        <h3>${bookmark.title}</h3>
+        <h1>${bookmark.title}</h1>
+        <h3>Rated: ${bookmark.rating || ''}</h3>
         <span>${bookmark.url}</span>
         <button class="bookmark-detailed-view js-bookmark-detailed-view">
           <span class="button-label">DETAILED VIEW</span>
@@ -42,7 +43,7 @@ const bookmarks = (function () {
     if (bookmark.editMode) {
       bookmarkTemplate = `
       <li class="bookmark-item js-bookmark-item" data-item-id="${bookmark.id}">
-        <h3>${bookmark.title}</h3>
+        <h1>${bookmark.title}</h1>
         <span>${bookmark.url}</span>
         <textarea rows="4" cols="50" class="description-textarea" placeholder="Description of Bookmark...">${bookmark.desc || ''}</textarea>
       <label for="rating">Rate your bookmark 0 - 5:
@@ -55,7 +56,7 @@ const bookmarks = (function () {
         <option value="5"${(bookmark.rating === 5) ? ' selected' : ''}>5</option>
       </select>
       </label>
-      <button class="bookmark-edit js-bookmark-edit">
+      <button class="bookmark-edit js-bookmark-finish-edit">
           <span class="button-label">FINISH EDIT</span>
         </button>
       </li>
@@ -64,8 +65,8 @@ const bookmarks = (function () {
     if (bookmark.expanded) {
       bookmarkTemplate = `
       <li class="bookmark-item js-bookmark-item" data-item-id="${bookmark.id}">
-      <h3>${bookmark.title}</h3>
-      <span>${bookmark.url}</span>
+      <h1>${bookmark.title}</h1>
+      <button><a href="${bookmark.url}">VISIT BOOKMARK</a></button>
       <label>Rating:</label>
       <span class="rating-span">${bookmark.rating}</span>
       <label>Description:</label>
@@ -90,6 +91,8 @@ const bookmarks = (function () {
   // -------------------------------------------------------
   // Render function responsible for rendering correct HTML elements on the DOM
   const render = () => {
+    let filteredItems = store.bookmarks;
+
     if(store.error) {
       const el = generateError(store.error);
       $('.error-container').html(el);
@@ -97,11 +100,18 @@ const bookmarks = (function () {
       $('.error-container').empty();
     }
 
-    let html = generateBookmarkString(store.bookmarks);
+    // filter render
+    console.log(store.fitlerValue);
+    if (store.filterValue > 0) {
+      filteredItems = store.bookmarks.filter(bookmark => bookmark.rating >= store.filterValue);
+      console.log(filteredItems);
+    }
+
+    let html = generateBookmarkString(filteredItems);
     $('#display-bookmarks').html(html);
   };
 
-  
+
   // HANDLERS v
   // -------------------------------------------------------
   //get bookmark ID
@@ -135,23 +145,27 @@ const bookmarks = (function () {
   // Handle toggling edit mode state of the object and rerender to render the object in editing mode
   const handleEditModeClick = () => {
     $('#display-bookmarks').on('click', '.js-bookmark-edit', event => {
-      // The default bookmarks lack the editMode property
-      // update store.bookmarks with the editMode/expand properties, both false
-      // console.log(bookmarks); // editMode: false
-      // Get the ID of the click event bookmark
+      console.log('Edit mode GO!');
       const id = getBookmarkIDFromElement(event.currentTarget);
-      // console.log(id);
-      if (store.findById(id).editMode) {
-        let description = $(event.currentTarget).parent().find('.description-textarea').val();
-        let rating = $(event.currentTarget).parent().find('.js-bookmark-rating').val();
-        // console.log(description);
-        store.findById(id).desc = description;
-        store.findById(id).rating = parseInt(rating);
-      }
-      console.log(store.bookmarks);
+      console.log(id);
       store.findAndToggleEditMode(id);
       render();
     });
+  };
+
+  const handleEditSubmit = () => {
+    $('#display-bookmarks').on('click', '.js-bookmark-finish-edit', event => {
+      const id = getBookmarkIDFromElement(event.currentTarget);
+      let description = $(event.currentTarget).parent().find('.description-textarea').val();
+      let rating = $(event.currentTarget).parent().find('.js-bookmark-rating').val();
+      // console.log(description, rating);
+      api.updateBookmark(id, {desc: description, rating}, () => {
+        store.findAndToggleEditMode(id);
+        store.findById(id).desc = description;
+        store.findById(id).rating = parseInt(rating);
+        render();
+      });
+    }); 
   };
 
   // Handles the expanded(detailed view) functionality
@@ -159,13 +173,7 @@ const bookmarks = (function () {
     $('#display-bookmarks').on('click', '.js-bookmark-detailed-view', event => { 
       // get the ID of the bookmark html element
       const id = getBookmarkIDFromElement(event.currentTarget); 
-      // get the description value taken from edit mode
-      let description = $(event.currentTarget).parent().find('.description-textarea').val();
-      // get the rating value taken from edit mode
-      let rating = $(event.currentTarget).parent().find('.js-bookmark-rating').val();
-      // update the store
-      store.findById(id).desc = description;
-      store.findById(id).rating = parseInt(rating);
+    
       // toggle the expanded state
       store.findAndToggleExpanded(id); 
       console.log(store.bookmarks);
@@ -191,6 +199,16 @@ const bookmarks = (function () {
   };
 
 
+  const handleFilterState = () => {
+    $('select').on('change', () => {
+      // console.log('FilterState handle function');
+      let selectedVal = $('select').val();
+      // console.log(selectedVal);
+      store.filterValue = selectedVal; // Filter value to selectedVal
+      render();
+    });
+  };
+ 
   // EVENT LISTENERS v
   // -------------------------------------------------------
   const bindEventListeners = () => {
@@ -198,6 +216,8 @@ const bookmarks = (function () {
     handleEditModeClick();
     handleExpandedView();
     handleDeleteBookmarkClick();
+    handleFilterState();
+    handleEditSubmit();
   };
 
   return {
