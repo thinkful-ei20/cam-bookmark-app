@@ -16,26 +16,35 @@ const bookmarks = (function () {
     `;
   };
 
-  // Render function responsible for rendering HTML on the DOM
-  const render = () => {
-    let html = '';
-    store.bookmarks.forEach(bookmark => html += bookmarks.generateBookmarkDOMelement(bookmark));
-    $('#display-bookmarks').html(html);
+  const generateBookmarkString = (bookmarks) => {
+    const bookmarkString = store.bookmarks.map((bookmark) => generateBookmarkDOMelement(bookmark));
+    return bookmarkString.join('');
   };
 
-  // Update the state of store.bookmarks
-  const updateStoreBookmarks = (response) => {
-    console.log(response);
-    const bookmarks = [];
-    // Create a new array of items, update the store's state
-    // response.items.forEach(item => {
+  // Render function responsible for rendering HTML on the DOM
+  const render = () => {
+    // Filter render logic
+    // if (store.filter){
+    //   filter by store.filterValue, nested if's?
+    // }
+    // if (store.filter) {
+    //   bookmarks = store.bookmarks.filter(bookmark => bookmark.rating === bookmark.rating)
+    // }
 
+    let html = generateBookmarkString(bookmarks);
+    store.bookmarks.forEach(bookmark => html += bookmarks.generateBookmarkDOMelement(bookmark));
+    $('#display-bookmarks').html(html);
   };
 
   //get bookmark ID
   const getBookmarkIDFromElement = (bookmark) => {
     return $(bookmark).closest('.js-bookmark-item').data('item-id');
   };
+
+  // Add a bookmark to the store
+  const updateStoreBookmarks = () => {
+
+  }
 
   // Handle the form submit
   const handleNewBookmarkSubmit = () => {
@@ -46,12 +55,20 @@ const bookmarks = (function () {
       let newBookmark = {
         title: newBookmarkTitle,
         url: newBookmarkURL,
+        rating: null,
+        description: null,
+        expanded: false,
       };
       // create a new bookmark in the store(callback)
-      api.createBookmark(newBookmark, store.addBookmark(newBookmark));
+      api.createBookmark(newBookmark, () => {
+        console.log(newBookmark);
+        store.addBookmark(newBookmark);
+        render();
+      });
     });
+    console.log(store.bookmarks);
     // GET a list of current bookmarks and forEach bookmark
-    // Add it to the store.bookmarks
+    // Add each to the store.bookmarks
     api.getBookmarks((bookmarks) => {
       bookmarks.forEach((bookmark) => store.addBookmark(bookmark));
       render();
@@ -87,8 +104,8 @@ const bookmarks = (function () {
 
   return {
     generateBookmarkDOMelement,
+    generateBookmarkString,
     render,
-    updateStoreBookmarks,
     handleNewBookmarkSubmit,
     handleDeleteBookmarkClick,
   };

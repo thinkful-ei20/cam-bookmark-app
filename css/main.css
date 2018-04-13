@@ -11,7 +11,12 @@
   float: left;
 }
 
+.display-bookmarks {
+  border: 1px solid red;
+}
+
 .bookmark-item {
   border: 1px solid blue;
+  list-style-type: none;
 }
 
