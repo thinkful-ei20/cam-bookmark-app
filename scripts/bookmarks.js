@@ -3,6 +3,9 @@
 
 const bookmarks = (function () {
 
+  // GENERATORS v
+  // -------------------------------------------------------
+  // generate error message on the DOM based on server error
   const generateError = (err) => {
     let message = '';
     if(err.responseJSON && err.responseJSON.message) {
@@ -11,7 +14,7 @@ const bookmarks = (function () {
       message = `${err.code} SERVER ERROR`;
     }
 
-    return; `
+    return `
     <section class="error-content">
       <button id="cancel-error">X</button>
     </section>
@@ -82,6 +85,9 @@ const bookmarks = (function () {
     return bookmarkString.join('');
   };
 
+
+  // RENDER  
+  // -------------------------------------------------------
   // Render function responsible for rendering correct HTML elements on the DOM
   const render = () => {
     if(store.error) {
@@ -95,6 +101,9 @@ const bookmarks = (function () {
     $('#display-bookmarks').html(html);
   };
 
+  
+  // HANDLERS v
+  // -------------------------------------------------------
   //get bookmark ID
   const getBookmarkIDFromElement = (bookmark) => {
     return $(bookmark).closest('.js-bookmark-item').data('item-id');
@@ -181,6 +190,9 @@ const bookmarks = (function () {
     });
   };
 
+
+  // EVENT LISTENERS v
+  // -------------------------------------------------------
   const bindEventListeners = () => {
     handleNewBookmarkSubmit();
     handleEditModeClick();
