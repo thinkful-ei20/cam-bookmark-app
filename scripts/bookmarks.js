@@ -37,7 +37,7 @@ const bookmarks = (function () {
     let bookmarks = store.updateStoreBookmarks(store.bookmarks);
     // console.log(bookmarks);
     let html = generateBookmarkString(bookmarks);
-    store.bookmarks.forEach((bookmark) => html += generateBookmarkDOMelement(bookmark));
+    store.bookmarks.forEach((bookmark) => generateBookmarkDOMelement(bookmark));
     $('#display-bookmarks').html(html);
   };
 
@@ -83,14 +83,16 @@ const bookmarks = (function () {
       // The default bookmarks lack the editMode property
       // update store.bookmarks with the editMode/expand properties, both false
       let bookmarks = store.updateStoreBookmarks(store.bookmarks);
-      // console.log(bookmarks);
+      // console.log(bookmarks); // editMode: false
       // Get the ID of the click event bookmark
       const id = getBookmarkIDFromElement(event.currentTarget);
       // console.log(id);
 
       store.findAndToggleEditMode(id);
-      console.log(store.bookmarks);
       // Per click of the edit button, the editMode property is now able to be toggled
+      store.updateStoreBookmarks(bookmarks);
+      console.log(store.bookmarks); // editMode: true
+      render();
     });
   };
 
