@@ -16,10 +16,10 @@ const bookmarks = (function () {
     `;
   };
 
-  const generateBookmarkString = (bookmarks) => {
-    const bookmarkString = store.bookmarks.map((bookmark) => generateBookmarkDOMelement(bookmark));
-    return bookmarkString.join('');
-  };
+  // const generateBookmarkString = (bookmarks) => {
+  //   const bookmarkString = store.bookmarks.map((bookmark) => generateBookmarkDOMelement(bookmark));
+  //   return bookmarkString.join('');
+  // };
 
   // Render function responsible for rendering HTML on the DOM
   const render = () => {
@@ -31,8 +31,8 @@ const bookmarks = (function () {
     //   bookmarks = store.bookmarks.filter(bookmark => bookmark.rating === bookmark.rating)
     // }
 
-    let html = generateBookmarkString(bookmarks);
-    store.bookmarks.forEach(bookmark => html += bookmarks.generateBookmarkDOMelement(bookmark));
+    let html = ''; //generateBookmarkString(bookmarks);
+    store.bookmarks.forEach((bookmark) => html += bookmarks.generateBookmarkDOMelement(bookmark));
     $('#display-bookmarks').html(html);
   };
 
@@ -44,7 +44,7 @@ const bookmarks = (function () {
   // Add a bookmark to the store
   const updateStoreBookmarks = () => {
 
-  }
+  };
 
   // Handle the form submit
   const handleNewBookmarkSubmit = () => {
@@ -104,7 +104,6 @@ const bookmarks = (function () {
 
   return {
     generateBookmarkDOMelement,
-    generateBookmarkString,
     render,
     handleNewBookmarkSubmit,
     handleDeleteBookmarkClick,
