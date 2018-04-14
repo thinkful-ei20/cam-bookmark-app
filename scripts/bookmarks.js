@@ -27,7 +27,7 @@ const bookmarks = (function () {
     let bookmarkTemplate = `
       <li class="bookmark-item js-bookmark-item" data-item-id="${bookmark.id}">
         <h1>${bookmark.title}</h1>
-        <h2>Rated: ${bookmark.rating || ''}</h2>
+        <h3>Rated: ${bookmark.rating || ''}</h3>
         <span>${bookmark.url}</span><br>
         <button class="bookmark-detailed-view js-bookmark-detailed-view">
           <span class="button-label">DETAILED VIEW</span>

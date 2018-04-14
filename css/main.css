@@ -12,6 +12,7 @@ header {
 .form-container {
   max-width: 24em;
   margin: auto;
+  margin-top: 10px;
 }
 
 .add-bookmark-form {
@@ -49,4 +50,8 @@ header {
   text-align: center;
   border: 1px solid gray;
   list-style-type: none;
+}
+
+.bookmark-item h1 {
+  background-color: lightskyblue;
 }
