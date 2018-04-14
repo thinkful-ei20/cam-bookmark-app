@@ -28,7 +28,7 @@ const bookmarks = (function () {
       <li class="bookmark-item js-bookmark-item" data-item-id="${bookmark.id}">
         <h1>${bookmark.title}</h1>
         <h2>Rated: ${bookmark.rating || ''}</h2>
-        <span>${bookmark.url}</span>
+        <span>${bookmark.url}</span><br>
         <button class="bookmark-detailed-view js-bookmark-detailed-view">
           <span class="button-label">DETAILED VIEW</span>
         </button>
@@ -44,9 +44,9 @@ const bookmarks = (function () {
       bookmarkTemplate = `
       <li class="bookmark-item js-bookmark-item" data-item-id="${bookmark.id}">
         <h1>${bookmark.title}</h1>
-        <span>${bookmark.url}</span>
-        <textarea rows="4" cols="50" class="description-textarea" placeholder="Description of Bookmark..." contenteditable="true" aria-multiline="true">${bookmark.desc || ''}</textarea>
-      <label for="rating">Rate your bookmark 0 - 5:
+        <span>${bookmark.url}</span><br>
+        <textarea rows="4" cols="50" class="description-textarea" placeholder="Description of Bookmark..." contenteditable="true" aria-multiline="true">${bookmark.desc || ''}</textarea><br>
+      <label for="rating">Rate your bookmark 0 - 5:<br>
       <select class="bookmark-rating js-bookmark-rating">
         <option role="option" value="0"${(bookmark.rating === 0) ? ' selected' : ''}>0</option>
         <option role="option" value="1"${(bookmark.rating === 1) ? ' selected' : ''}>1</option>
@@ -55,7 +55,7 @@ const bookmarks = (function () {
         <option role="option" value="4"${(bookmark.rating === 4) ? ' selected' : ''}>4</option>
         <option role="option" value="5"${(bookmark.rating === 5) ? ' selected' : ''}>5</option>
       </select>
-      </label>
+      </label><br>
       <button class="bookmark-edit js-bookmark-finish-edit">
           <span class="button-label">FINISH EDIT</span>
         </button>
@@ -65,12 +65,12 @@ const bookmarks = (function () {
     if (bookmark.expanded) {
       bookmarkTemplate = `
       <li class="bookmark-item js-bookmark-item" data-item-id="${bookmark.id}">
-      <h1>${bookmark.title}</h1>
-      <button><a href="${bookmark.url}">VISIT BOOKMARK</a></button>
+      <h1>${bookmark.title}</h1><br>
+      <button><a href="${bookmark.url}">VISIT BOOKMARK</a></button><br>
       <label>Rating:</label>
-      <span class="rating-span">${bookmark.rating}</span>
+      <span class="rating-span">${bookmark.rating}</span><br>
       <label>Description:</label>
-      <span class"description-span">${bookmark.desc}</span>
+      <span class"description-span">${bookmark.desc}</span><br>
       <button class="bookmark-detailed-view js-bookmark-detailed-view">
         <span class="button-label">LEAVE DETAILED VIEW</span>
       </button>

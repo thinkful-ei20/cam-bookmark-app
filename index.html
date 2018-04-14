@@ -17,26 +17,36 @@
 
   <main role="main">
     <section role="region">
-      <form class="add-bookmark-form">
-        <h2>Add a new Bookmark:</h2>
-        <label for="bookmark-title">Bookmark name:
-          <input contenteditable="true" id="bookmark-title" required>
-        </label>
-        <label for="bookmark-url">Bookmark URL:
-          <input contenteditable="true" id="bookmark-url" required>
-        </label>
-        <label for="bookmark-rating">Bookmark rating:
-          <input contenteditable="true" id="bookmark-rating-input">
-        </label>
-        <label for="bookmark-desc-input">Bookmark description:
-          <textarea name="bookmark-desc-textarea" id="bookmark-desc-input" contenteditable="true" aria-multiline="true" cols="30" rows="10" placeholder="Description(Optional).."></textarea>
-        </label>
-        <input type="submit" id="add-bookmark-button" value="ADD">
-      </form>
+      <div class="form-container">
+        <form class="add-bookmark-form">
+          <h2>Add a new Bookmark:</h2>
+          <table>
+
+            <tr>
+              <td><label for="bookmark-title">Bookmark name:</label></td>
+              <td><input contenteditable="true" id="bookmark-title" required></td>
+            </tr>
+            <tr>
+              <td><label for="bookmark-url">Bookmark URL:</label></td>
+              <td><input contenteditable="true" id="bookmark-url" required></td>
+            </tr>
+            </tr>
+              <td><label for="bookmark-rating">Bookmark rating:</label></td>
+              <td><input contenteditable="true" id="bookmark-rating-input"></td>
+            </tr>
+            <tr>
+              <td><label for="bookmark-desc-input">Bookmark description:</label></td>
+              <td><textarea name="bookmark-desc-textarea" id="bookmark-desc-input" contenteditable="true" aria-multiline="true" cols="30" rows="10" placeholder="Description(Optional).."></textarea></td>
+            </tr>
+
+          </table>
+          <input type="submit" id="add-bookmark-button" value="ADD">
+        </form>
+      </div>
     </section>
     
     <section role="region">
-      <label for="rating-filter">Filter by rating:
+      <label for="rating-filter" class="rating-filter">Filter by rating:
         <select id="rating-filter">
           <option role="option" value="0">0</option>
           <option role="option" value="1">1</option>
@@ -49,7 +59,7 @@
     </section>
 
     <section role="region">
-      <div class="container">
+      <div class="container-1">
         <ul class="display-bookmarks" id="display-bookmarks">
             
         </ul>
