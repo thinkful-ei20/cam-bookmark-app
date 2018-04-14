@@ -3,7 +3,6 @@
 
 // API module methods are async functions for returning responses
 const api = (function() {
-  // base_url is locally scoped
   const BASE_URL = 'https://thinkful-list-api.herokuapp.com/cam';
 
   // GET - Request data from a specified resource
@@ -14,7 +13,6 @@ const api = (function() {
   // POST - submit data to be processed to a specified resource
   const createBookmark = (data, callback, errorCallback) => {
     let newBookmark = JSON.stringify(data);
-    console.log(newBookmark);
 
     $.ajax({
       url: BASE_URL + '/bookmarks',

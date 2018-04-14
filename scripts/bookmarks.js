@@ -23,7 +23,6 @@ const bookmarks = (function () {
 
   // Generate an HTML element template
   const generateBookmarkDOMelement = (bookmark) => {
-    // console.log(bookmark);
     let bookmarkTemplate = `
       <li class="bookmark-item js-bookmark-item" data-item-id="${bookmark.id}">
         <h1>${bookmark.title}</h1>
@@ -40,6 +39,7 @@ const bookmarks = (function () {
         </button>
       </li>
     `;
+
     if (bookmark.editMode) {
       bookmarkTemplate = `
       <li class="bookmark-item js-bookmark-item" data-item-id="${bookmark.id}">
@@ -62,6 +62,7 @@ const bookmarks = (function () {
       </li>
       `;
     }
+
     if (bookmark.expanded) {
       bookmarkTemplate = `
       <li class="bookmark-item js-bookmark-item" data-item-id="${bookmark.id}">
@@ -93,6 +94,7 @@ const bookmarks = (function () {
   const render = () => {
     let filteredItems = store.bookmarks;
 
+    // error handling
     if(store.error) {
       const el = generateError(store.error);
       $('.error-container').html(el);
@@ -101,10 +103,8 @@ const bookmarks = (function () {
     }
 
     // filter render
-    // console.log(store.fitlerValue);
     if (store.filterValue > 0) {
       filteredItems = store.bookmarks.filter(bookmark => parseInt(bookmark.rating) === parseInt(store.filterValue));
-      // console.log(filteredItems);
     }
 
     let html = generateBookmarkString(filteredItems);
@@ -141,15 +141,12 @@ const bookmarks = (function () {
         render();
       });
     });
-    // console.log(store.bookmarks);
   };
 
   // Handle toggling edit mode state of the object and rerender to render the object in editing mode
   const handleEditModeClick = () => {
     $('#display-bookmarks').on('click', '.js-bookmark-edit', event => {
-      console.log('Edit mode GO!');
       const id = getBookmarkIDFromElement(event.currentTarget);
-      console.log(id);
       store.findAndToggleEditMode(id);
       render();
     });
@@ -160,7 +157,6 @@ const bookmarks = (function () {
       const id = getBookmarkIDFromElement(event.currentTarget);
       let description = $(event.currentTarget).parent().find('.description-textarea').val();
       let rating = $(event.currentTarget).parent().find('.js-bookmark-rating').val();
-      // console.log(description, rating);
       api.updateBookmark(id, {desc: description, rating}, () => {
         store.findAndToggleEditMode(id);
         store.findById(id).desc = description;
@@ -178,7 +174,6 @@ const bookmarks = (function () {
     
       // toggle the expanded state
       store.findAndToggleExpanded(id); 
-      console.log(store.bookmarks);
       render(); 
     }); 
   };
@@ -188,13 +183,11 @@ const bookmarks = (function () {
     // capture the ul that contains generated list elements
     $('#display-bookmarks').on('click', '.js-bookmark-delete', event => {
       const id = getBookmarkIDFromElement(event.currentTarget);
-      console.log(id);
 
       api.deleteBookmark(id, () => {
         api.getBookmarks(() => {
           store.findAndDelete(id);
           render();
-          console.log(store.bookmarks);
         });
       });
     });
@@ -203,9 +196,7 @@ const bookmarks = (function () {
 
   const handleFilterState = () => {
     $('select').on('change', () => {
-      // console.log('FilterState handle function');
       let selectedVal = $('select').val();
-      // console.log(selectedVal);
       store.filterValue = selectedVal; // Filter value to selectedVal
       render();
     });
